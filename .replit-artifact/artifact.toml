@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/publication-studio/"
+title = "IFRS Metrics Publication Studio"
+description = "A branded document editor for finance teams to compose, preview, save, and export editable three-page IFRS Metrics publications."
+version = "1.0.0"
+id = "artifacts/publication-studio"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/publication-studio/" ]
+localPort = 19344
+
+[services.development]
+run = "pnpm --filter @workspace/publication-studio run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/publication-studio", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/publication-studio/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "19344"
+BASE_PATH = "/publication-studio/"
